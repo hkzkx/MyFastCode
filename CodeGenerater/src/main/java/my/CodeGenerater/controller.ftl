@@ -30,6 +30,7 @@ public class ${controller.service.dao.dto.className}Controller extends BaseContr
 		if (result.hasErrors()) {
 			return buildValidataMsg(result);
 		}
+		userModel = ${controller.service.instanceName}.insert(userModel);
 		return null;
 	}
 }
