@@ -49,7 +49,9 @@ public class MessagesResolver implements BeanFactoryPostProcessor {
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
 			throws BeansException {
 		URL root = this.getClass().getResource(messageRootPath);
-
+		if(root == null)
+			return;
+		
 		File dir = new File(root.getFile());
 		List<String> basenames = new ArrayList<String>();
 		listFiles(dir, basenames);
