@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+>
+	<context:component-scan base-package="com.mmb.*"/>
+	
+	<bean id="hessianSupportClient"  class="com.remote.hession.RemoteServiceScanner">
+		<property name="scanPackages">
+			<array>
+				<value>com.mmb</value>
+			</array>
+		</property>   
+	</bean>
+	<bean id="settings" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+           <list>
+				<value>classpath*:/config/*.properties</value>
+			</list>
+        </property>
+    </bean>
+	
+	<bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="properties" ref="settings" />
+	</bean>
+	
+   <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">  
+          <property name="user" value="${db.user}"/>  
+          <property name="password" value="${db.password}"/>  
+          <property name="driverClass" value="${db.driver}"/>  
+          <property name="jdbcUrl" value="${db.driverUrl}"/>  
+          <property name="maxPoolSize" value="${maximumConnectionCount}"/>  
+          <property name="minPoolSize" value="${minimumConnectionCount}"/>  
+          <property name="initialPoolSize" value="${prototypeCount}"/>  
+          <property name="maxIdleTime" value="60"/>  
+          <property name="acquireRetryAttempts" value="5"/>  
+          <!--每60秒检查所有连接池中的空闲连接。默9认值: 0，不检查 -->   
+          <property name="idleConnectionTestPeriod" value="60"/>  
+          <property name="testConnectionOnCheckin" value="true"/>
+          <property name="automaticTestTable" value="c3p0Table"/>  
+          <property name="numHelperThreads" value="20"/>  
+          <!-- 在连接被应用程序 checkout后指定时间内未checkin则由连接缓冲池执行kill操作，同时打印堆栈跟踪信息
+          <property name="debugUnreturnedConnectionStackTraces" value="true" />
+          <property name="unreturnedConnectionTimeout" value="70" /> -->
+     </bean>  
+
+
+	<import resource="classpath:spring/applicationContext-transaction.xml"/>
+	<import resource="classpath:spring/applicationContext-mybatis.xml"/>
+	
+</beans>
