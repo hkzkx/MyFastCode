@@ -34,15 +34,17 @@ import freemarker.template.TemplateException;
  */
 public class Main {
 	private static String delimiters = ", ";
+	private static final String projectsPath = "Q:/guangqun/trunk/";
 	private static final String package_ = "com.mmb.{layer}.{module}"; // 根据命名约定，不可变
-	private static final String remotePath = "D:/work/MyFastCode-master/remote/src/main/java/"; // 业务存根代码生成的路径
-	private static final String soaPath = "D:/work/MyFastCode-master/soa/src/main/java/"; // 远程服务代码生成的路径
-	private static final String webPath = "D:/work/MyFastCode-master/web/src/main/java/"; // 应用代码生成的路径
-	private static final String ftlPath = "D:/work/MyFastCode-master/web/src/main/webapp/WEB-INF/ftl/";//生成的 ftl from 存放位置 
-	private static final String messagesPath = "D:/work/MyFastCode-master/web/src/main/resources/messages//";//生成的 校验出错时的信息 
+	private static final String remotePath = projectsPath+"remote/src/main/java/"; // 业务存根代码生成的路径
+	private static final String soaPath = projectsPath+"soa/src/main/java/"; // 远程服务代码生成的路径
+	private static final String webPath = projectsPath+"web/src/main/java/"; // 应用代码生成的路径
+	private static final String ftlPath = projectsPath+"web/src/main/webapp/WEB-INF/ftl/";//生成的 ftl from 存放位置 
+	private static final String messagesPath = projectsPath+"web/src/main/resources/messages//";//生成的 校验出错时的信息 
 	
-	private static String module = "user"; // 当前要生成代码的子系统（模块），根据具体业务需要进行改变
-
+	private static String module = "siteuser"; // 当前要生成代码的子系统（模块），根据具体业务需要进行改变
+	private static String schema = "mmk_claims";
+	
 	public static void main(String[] args) throws SQLException, IOException {
 		byte[] bs = new byte[1024 * 100];
 
@@ -56,9 +58,9 @@ public class Main {
 
 			for (String tableName : tableNames) {
 				String tableSql = "select table_comment from tables where table_name='" + tableName
-						+ "' and table_schema='mmk_db'";
+						+ "' and table_schema='"+schema+"'";
 				String sql = "select COLUMN_NAME,DATA_TYPE,COLUMN_KEY,COLUMN_COMMENT,COLUMN_DEFAULT,IS_NULLABLE from COLUMNS where table_name='"
-						+ tableName + "' and table_schema='mmk_db'";
+						+ tableName + "' and table_schema='"+schema+"'";
 
 				String dtoComment = db.queryOneColumn(tableSql);
 
@@ -89,6 +91,8 @@ public class Main {
 							System.out.println(type + " not mapped.");
 						if (dataType.equals(DataType.Date))
 							dto.setHasDate(true);
+						if (dataType.equals(DataType.BigDecimal))
+							dto.setHasBigDecimal(true);
 						field.setType(dataType.name());
 
 						dto.addField(field);

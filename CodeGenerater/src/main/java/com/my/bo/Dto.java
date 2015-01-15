@@ -8,6 +8,7 @@ public class Dto implements Bo {
 	private String className;
 	private String serialNum;
 	private boolean hasDate;
+	private boolean hasBigDecimal;
 	private String module;
 	private String comment;
 
@@ -99,5 +100,13 @@ public class Dto implements Bo {
 	@Override
 	public String getModule() {
 		return this.module;
+	}
+
+	public boolean isHasBigDecimal() {
+		return hasBigDecimal;
+	}
+
+	public void setHasBigDecimal(boolean hasBigDecimal) {
+		this.hasBigDecimal = hasBigDecimal;
 	}
 }

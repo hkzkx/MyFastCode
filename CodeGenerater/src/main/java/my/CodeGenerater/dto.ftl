@@ -7,6 +7,9 @@ import java.io.Serializable;
 <#if dto.hasDate>
 import java.util.Date;
 </#if>
+<#if dto.hasBigDecimal>
+import java.math.BigDecimal;
+</#if>
 
 ${dto.comment}
 public class ${dto.className} implements Serializable {
@@ -31,6 +34,13 @@ public class ${dto.className} implements Serializable {
 	@Id
 	</#if>
 	private String ${field.name};
+	<#break>
+	
+	<#case "BigDecimal">
+	<#if field.primary>
+	@Id
+	</#if>
+	private BigDecimal ${field.name};
 	<#break>
 	
 	<#case "Date">
