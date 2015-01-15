@@ -8,8 +8,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.code.controller.base.BaseController;
-import com.code.common.MessageBean;
+import com.mmb.controller.base.BaseController;
+import com.mmb.common.MessageBean;
 
 import ${controller.service.dao.dto.package_}.${controller.service.dao.dto.className};
 import ${controller.service.package_}.${controller.service.iClassName};

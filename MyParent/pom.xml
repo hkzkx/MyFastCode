@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.my</groupId>
-	<artifactId>parent</artifactId>
+	<artifactId>MyParent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
@@ -72,22 +72,7 @@
 				<artifactId>MyRemote</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.my</groupId>
-				<artifactId>HessianSupport</artifactId>
-				<version>${hessian-support.version}</version>
-			</dependency>
 
-			<dependency>
-				<groupId>com.my</groupId>
-				<artifactId>basedao</artifactId>
-				<version>${basedao.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.my</groupId>
-				<artifactId>common</artifactId>
-				<version>${common.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>com.jonguo</groupId>
 				<artifactId>SmartHadoop</artifactId>
@@ -288,6 +273,21 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>${hibernate-validator.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.my</groupId>
+				<artifactId>MyBasedao</artifactId>
+				<version>${basedao.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.my</groupId>
+				<artifactId>MyCommon</artifactId>
+				<version>${common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.my</groupId>
+				<artifactId>MyHessianSupport</artifactId>
+				<version>${hessian-support.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

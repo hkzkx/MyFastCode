@@ -1,6 +1,6 @@
 package ${dao.package_};
 
-import com.code.annotation.RegisterDto;
+import com.mmb.annotation.RegisterDto;
 import com.basedao.common.BaseDao;
 import ${(dao.dto.package_)!}.${(dao.dto.className)!};
 

@@ -3,12 +3,12 @@
 	
 	<parent>
 		<groupId>com.my</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>MyParent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../MyParent/pom.xml</relativePath>
 	</parent>
 	
-	<artifactId>common</artifactId>
+	<artifactId>MyCommon</artifactId>
 	<version>${common.version}</version>
 	<packaging>jar</packaging>
 	

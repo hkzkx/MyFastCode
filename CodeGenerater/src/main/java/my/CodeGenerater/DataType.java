@@ -2,9 +2,13 @@ package my.CodeGenerater;
 
 public enum DataType {
 
-	Long(new String[] { "bigint" }), String(new String[] { "varchar", "text", "char" }), Date(
-			"datetime", "timestamp"), Integer(new String[] { "int", "smallint", "tinyint" }), Float(
-			"float"), Double("double");
+	Long(new String[] { "bigint" }), 
+	String(new String[] { "varchar", "text", "char" }), 
+	Date("datetime", "timestamp"),
+	Integer(new String[] { "int", "smallint", "tinyint" }), 
+	Float("float"), 
+	BigDecimal("decimal"), 
+	Double("double");
 
 	private String[] sqlType;
 
@@ -18,7 +22,7 @@ public enum DataType {
 				return type;
 			}
 			for (String sqlType_ : type.sqlType) {
-				if (sqlType_.equals(sqlType_)) {
+				if (sqlType_.equals(sqlType)) {
 					return type;
 				}
 			}

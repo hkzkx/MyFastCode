@@ -2,11 +2,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.my</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>MyParent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../MyParent/pom.xml</relativePath>
 	</parent>
-	<groupId>my</groupId>
 	<artifactId>MyWeb</artifactId>
 	<packaging>war</packaging>
 
@@ -18,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.my</groupId>
-			<artifactId>common</artifactId>
+			<artifactId>MyCommon</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.my</groupId>
@@ -61,7 +60,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.my</groupId>
-			<artifactId>HessianSupport</artifactId>
+			<artifactId>MyHessianSupport</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>

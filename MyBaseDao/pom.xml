@@ -3,22 +3,22 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.my</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>MyParent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../MyParent/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>basedao</artifactId>
+	<artifactId>MyBasedao</artifactId>
 	<version>${basedao.version}</version>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>com.my</groupId>
-			<artifactId>common</artifactId>
+			<artifactId>MyCommon</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.my</groupId>
-			<artifactId>annotation</artifactId>
+			<artifactId>MyAnnotation</artifactId>
 			<version>${annotation.version}</version>
 		</dependency>
 		<dependency>

@@ -4,12 +4,12 @@
 
 	<parent>
 		<groupId>com.my</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>MyParent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../MyParent/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>HessianSupport</artifactId>
+	<artifactId>MyHessianSupport</artifactId>
 	<version>0.0.2</version>
 	<description>Hessian服务暴露及远程服务构建</description>
 
