@@ -9,6 +9,5 @@
 	</parent>
 	<name>MyAnnotation</name>
 	<artifactId>MyAnnotation</artifactId>
-	<version>0.0.1</version>
 	<packaging>jar</packaging>
 </project>

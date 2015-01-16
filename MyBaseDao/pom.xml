@@ -9,7 +9,6 @@
 	</parent>
 
 	<artifactId>MyBasedao</artifactId>
-	<version>${basedao.version}</version>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>

@@ -10,7 +10,6 @@
 	</parent>
 
 	<artifactId>MyHessianSupport</artifactId>
-	<version>0.0.2</version>
 	<description>Hessian服务暴露及远程服务构建</description>
 
 	<properties>
@@ -37,6 +36,11 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.caucho</groupId>
+			<artifactId>hessian</artifactId>
+			<version>${hessian.version}</version>
 		</dependency>
 	</dependencies>
 
