@@ -10,21 +10,20 @@ public class BigDecimalHessianDeserializer extends AbstractStringValueDeserializ
 
 	@Override
 	protected Object create(String value) throws IOException {
-		 BigDecimal  bigDecimal = new  BigDecimal(value);
+		BigDecimal bigDecimal = new BigDecimal(value);
 		return bigDecimal;
 	}
-
 
 	@Override
 	public Object readObject(AbstractHessianInput in) throws IOException {
 		Object obj = in.readObject();
-		
-		return obj;
+		if (obj != null && obj.toString().trim().length() > 0)
+			return new BigDecimal(obj.toString());
+		return null;
 	}
 
 	@Override
-	public Object readObject(AbstractHessianInput in, String[] fieldNames)
-			throws IOException {
+	public Object readObject(AbstractHessianInput in, String[] fieldNames) throws IOException {
 		return super.readObject(in, fieldNames);
 	}
 
