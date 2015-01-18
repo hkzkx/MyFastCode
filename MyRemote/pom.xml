@@ -6,9 +6,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../MyParent/pom.xml</relativePath>
 	</parent>
+	
 	<artifactId>MyRemote</artifactId>
 	<packaging>jar</packaging>
-	<name>MyRemote</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
