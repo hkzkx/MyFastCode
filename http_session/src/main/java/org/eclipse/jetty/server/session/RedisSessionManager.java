@@ -206,7 +206,7 @@ public class RedisSessionManager extends AbstractSessionManager {
 		@Override
 		protected void timeout() throws IllegalStateException {
 			if (log.isDebugEnabled())
-				log.info("Timing out session id=" + getClusterId());
+				log.debug("Timing out session id=" + getClusterId());
 			super.timeout();
 		}
 
@@ -287,16 +287,16 @@ public class RedisSessionManager extends AbstractSessionManager {
 							return null;
 						}
 					} else {
-						log.info(String.format("getSession (%s): Session has expired", idInCluster));
+						log.debug(String.format("getSession (%s): Session has expired", idInCluster));
 						session = null;
 					}
 
 				} else {
-					log.info(String.format("getSession(%s): Session not stale %s", idInCluster, session));
+					log.debug(String.format("getSession(%s): Session not stale %s", idInCluster, session));
 				}
 			} else {
 				// No session in db with matching id and context path.
-				log.info(String.format("getSession(%s): No session in database matching id=%s", idInCluster,
+				log.debug(String.format("getSession(%s): No session in database matching id=%s", idInCluster,
 						idInCluster));
 			}
 
@@ -351,7 +351,7 @@ public class RedisSessionManager extends AbstractSessionManager {
 		synchronized (this) {
 			removed = getRedis().del(idInCluster);
 		}
-		log.info("removed session with id "+idInCluster);
+		log.debug("removed session with id "+idInCluster);
 		return removed;
 	}
 
@@ -423,8 +423,23 @@ public class RedisSessionManager extends AbstractSessionManager {
 	 * @throws Exception
 	 */
 	protected Session loadSession(final String id) {
-
-		Map<String,Object> data = (Map<String,Object>) getRedis().hgetAll(id);
+		log.info("load session by id :"+id);
+		
+		Integer dbIdx = null;
+		Map<String,Object> data = null;
+		
+		SessionIdManager idmanager = getSessionIdManager();
+		if (idmanager instanceof RedisSessionIdManager) {
+			RedisSessionIdManager redisIdManager = (RedisSessionIdManager) idmanager;
+			boolean brisk = redisIdManager.isBrisk();
+			if(brisk){
+				dbIdx = Integer.parseInt(id.substring(id.length()-2));
+				data = (Map<String,Object>) getRedis().hgetAll(id,dbIdx);
+			}else{
+				data = (Map<String,Object>) getRedis().hgetAll(id);
+			}
+		}
+		
 		if (data == null || data.size()==0) {
 			return null;
 		}
@@ -439,7 +454,7 @@ public class RedisSessionManager extends AbstractSessionManager {
 		Map<String, Object> attrs = (Map<String, Object>)data.get(SessionKeys._session_Attributes_.name());
 		session.addAttributes(attrs);
 		
-		log.info("LOADED session " + session);
+		log.debug("LOADED session " + session);
 
 		return session;
 	}
@@ -459,7 +474,7 @@ public class RedisSessionManager extends AbstractSessionManager {
 		
 		getRedis().hmset(data.getId(), sessionCopy,data.getMaxInactiveInterval());
 		
-		log.info("Stored session " + data);
+		log.debug("Stored session " + data);
 	}
 
 	protected void updateSession(Session data) {
@@ -480,7 +495,7 @@ public class RedisSessionManager extends AbstractSessionManager {
 		
 		getRedis().hmset(data.getId(), sessionCopy,data.getMaxInactiveInterval());
 		
-		log.info("Updated session " + data);
+		log.debug("Updated session " + data);
 	}
 
 	protected void updateSessionNode(Session data) throws Exception {
@@ -492,7 +507,7 @@ public class RedisSessionManager extends AbstractSessionManager {
 
 			getRedis().hset(data.getId(), SessionKeys.lastNode.name(), nodeId);
 			
-			log.info("Updated last node for session id=" + data.getId() + ", lastNode = "
+			log.debug("Updated last node for session id=" + data.getId() + ", lastNode = "
 						+ nodeId);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -502,7 +517,7 @@ public class RedisSessionManager extends AbstractSessionManager {
 
 	protected void deleteSession(Session data) throws Exception {
 		getRedis().del(data.getId());
-		log.info("Deleted Session " + data);
+		log.debug("Deleted Session " + data);
 	}
 	
 	private JedisFace getRedis() {

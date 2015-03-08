@@ -23,6 +23,20 @@ public class RedisSessionIdManager extends AbstractSessionIdManager {
 	private String redisConfig;
 	private PooledJedis pool;
 	
+	private boolean brisk = false;
+	
+	public boolean isBrisk() {
+		return brisk;
+	}
+
+	public void setBrisk(boolean brisk) {
+		this.brisk = brisk;
+	}
+	
+	public Integer getDbIdx(){
+		return pool.getDbIdx();
+	}
+	
 	public RedisSessionIdManager(Server server) {
 		super();
 		log.info("RedisSessionIdManager init ...");
@@ -36,6 +50,13 @@ public class RedisSessionIdManager extends AbstractSessionIdManager {
 
 	private void initializeRedis() {
 		pool = PooledJedis.getPooledJedis(redisConfig);
+		try{
+			this.getRedis().exists("test");
+			log.info("http redis test done.");
+		}catch(Exception ex){
+			ex.printStackTrace();
+			System.exit(1);
+		}
 	}
 
 	public JedisFace getRedis() {
@@ -115,7 +136,7 @@ public class RedisSessionIdManager extends AbstractSessionIdManager {
 		initializeRedis();
 		try {
 			super.doStart();
-			log.info("RedisSessionIdManager stared");
+			log.debug("RedisSessionIdManager stared");
 		} catch (Exception e) {
 			log.warn("Problem initialising RedisSessionIdManager", e);
 		}
@@ -138,4 +159,16 @@ public class RedisSessionIdManager extends AbstractSessionIdManager {
 		this.redisConfig = redisConfig;
 	}
 
+	@Override
+	public String newSessionId(HttpServletRequest request, long created) {
+		String sessionId = super.newSessionId(request, created);
+		String dbId = pool.getDbIdx().toString();
+		if(dbId.length()<2)
+			dbId = "0"+dbId;
+		
+		return sessionId + dbId;
+		
+	}
+
+	
 }

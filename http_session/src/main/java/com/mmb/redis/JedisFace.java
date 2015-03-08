@@ -1,4 +1,4 @@
-package com.my.redis;
+package com.mmb.redis;
 
 import java.util.Map;
 
@@ -61,6 +61,7 @@ public interface JedisFace {
 	public abstract Object hget(String key, String field);
 
 	public abstract Map<String, Object> hgetAll(String key);
+	public abstract Map<String, Object> hgetAll(String key,Integer dbIdx);
 
 	public boolean exists(String id);
 }

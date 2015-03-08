@@ -1,4 +1,4 @@
-package com.my.redis;
+package com.mmb.redis;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,7 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
-import java.util.logging.Logger;
+
+import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.log.Logger;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 public class PooledJedis {
 	private static Logger log = Log.getLogger(PooledJedis.class);
@@ -20,6 +26,7 @@ public class PooledJedis {
 	private String host;
 	private Integer port;
 	private Integer dbIdx;
+	private String app;
 	
 	private Integer soTimeout = 5000;//jedis socket 超时设置
 	private Integer poolMaxActive = 50;
@@ -81,6 +88,7 @@ public class PooledJedis {
 			this.port = Integer.valueOf(file.getProperty("port"));
 			this.dbIdx = Integer.valueOf(file.getProperty("db"));
 			
+			this.app = file.getProperty("app");
 			makePool();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -94,10 +102,11 @@ public class PooledJedis {
 		}
 	}
 
-	public Object getJedisProxy() {
-		JedisProxy proxy = new JedisProxy(this);
-		return Proxy.newProxyInstance(proxy.getClass().getClassLoader(),  
-				proxy.getClass().getInterfaces(), proxy);   
+	public JedisProxy getJedisProxy() {
+		return new JedisProxy(this);
+//		JedisProxy proxy = new JedisProxy(this);
+//		return Proxy.newProxyInstance(proxy.getClass().getClassLoader(),  
+//				proxy.getClass().getInterfaces(), proxy);   
 	}
 	
 	protected Jedis getJedis() {
@@ -124,12 +133,17 @@ public class PooledJedis {
 			config.setTestOnBorrow(poolTestOnBorrow);
 			config.setTestOnReturn(poolTestOnReturn);
 			
-			pool = new JedisPool(config,host,port,soTimeout,null,dbIdx,"http-session-client");
+			pool = new JedisPool(config,host,port,soTimeout,null,dbIdx,"http-session-client-"+app);
 		}
 	}
 
+	
+	public Integer getDbIdx() {
+		return dbIdx;
+	}
+
 	public static void main(String[] args) {
-		String conf = "D:/java/workspace/luna/MyHttpSession/src/main/resources/http_session.redis";
+		String conf = "D:/work/MyFastCode-master/http_session/src/main/resources/http_session.redis";
 		PooledJedis pool = PooledJedis.getPooledJedis(conf);
 //		Jedis jedis = pool.getJedis();
 		
@@ -139,8 +153,7 @@ public class PooledJedis {
 //		ScanResult<String> rs = jedis.scan("0", p);
 //		List<String> list = rs.getResult();
 //		System.out.println(list.size());
-		
-		for (int i = 0; i < 10; i++) {
+		while(true){
 			new Thread(new Runnable() {
 				
 				@Override
@@ -152,6 +165,26 @@ public class PooledJedis {
 					
 				}
 			},"read").start();
+			
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+//		for (int i = 0; i < 10; i++) {
+//			new Thread(new Runnable() {
+//				
+//				@Override
+//				public void run() {
+//					while(true) {
+//						JedisFace face = (JedisFace) pool.getJedisProxy();
+//						face.getStr("a");
+//					}
+//					
+//				}
+//			},"read").start();
+//		}
 	}
 }

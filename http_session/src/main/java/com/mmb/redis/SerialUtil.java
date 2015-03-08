@@ -1,11 +1,12 @@
-package com.my.redis;
+package com.mmb.redis;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.logging.Logger;
+import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.log.Logger;
 
 public class SerialUtil {
 	private static Logger log = Log.getLogger(SerialUtil.class);

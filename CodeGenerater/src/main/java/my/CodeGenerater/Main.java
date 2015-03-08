@@ -34,15 +34,15 @@ import freemarker.template.TemplateException;
  */
 public class Main {
 	private static String delimiters = ", ";
-	private static final String projectsPath = "Q:/guangqun/trunk/";
+	private static final String projectsPath = "f:/guangqun/trunk/";
 	private static final String package_ = "com.mmb.{layer}.{module}"; // 根据命名约定，不可变
 	private static final String remotePath = projectsPath+"remote/src/main/java/"; // 业务存根代码生成的路径
 	private static final String soaPath = projectsPath+"soa/src/main/java/"; // 远程服务代码生成的路径
-	private static final String webPath = projectsPath+"web/src/main/java/"; // 应用代码生成的路径
-	private static final String ftlPath = projectsPath+"web/src/main/webapp/WEB-INF/ftl/";//生成的 ftl from 存放位置 
-	private static final String messagesPath = projectsPath+"web/src/main/resources/messages//";//生成的 校验出错时的信息 
+	private static final String webPath = projectsPath+"oms/src/main/java/"; // 应用代码生成的路径
+//	private static final String ftlPath = projectsPath+"web/src/main/webapp/WEB-INF/ftl/";//生成的 ftl from 存放位置 
+//	private static final String messagesPath = projectsPath+"web/src/main/resources/messages/";//生成的 校验出错时的信息 
 	
-	private static String module = "siteuser"; // 当前要生成代码的子系统（模块），根据具体业务需要进行改变
+	private static String module = "claims"; // 当前要生成代码的子系统（模块），根据具体业务需要进行改变
 	private static String schema = "mmk_claims";
 	
 	public static void main(String[] args) throws SQLException, IOException {
@@ -163,17 +163,17 @@ public class Main {
 		appGenerate.getProject(appProject).genarate();
 
 		// 生成 表单
-		Form form = new Form(module);
-		form.setDto(dto);
-		Project ftlProject = Project.getProject(ftlPath, form);
-		MyGenrater.FormGenerater fromGenerate = new MyGenrater().new FormGenerater();
-		fromGenerate.getProject(ftlProject).genarate();
+//		Form form = new Form(module);
+//		form.setDto(dto);
+//		Project ftlProject = Project.getProject(ftlPath, form);
+//		MyGenrater.FormGenerater fromGenerate = new MyGenrater().new FormGenerater();
+//		fromGenerate.getProject(ftlProject).genarate();
 
 		// 生成 BO校验消息
-		Messages messages = new Messages(module);
-		messages.setDto(dto);
-		Project messagesProject = Project.getProject(messagesPath, messages);
-		MyGenrater.MessageGenerater messageGenerater = new MyGenrater().new MessageGenerater();
-		messageGenerater.getProject(messagesProject).genarate();
+//		Messages messages = new Messages(module);
+//		messages.setDto(dto);
+//		Project messagesProject = Project.getProject(messagesPath, messages);
+//		MyGenrater.MessageGenerater messageGenerater = new MyGenrater().new MessageGenerater();
+//		messageGenerater.getProject(messagesProject).genarate();
 	}
 }
