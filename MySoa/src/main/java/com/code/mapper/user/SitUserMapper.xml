@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.dao.user.SitUserDao">
+	<resultMap type="BaseResultMap" id="com.code.model.user.SitUser">
+		<id column="user_id" property="userId" />
+		<result column="account" property="account" />
+		<result column="password" property="password" />
+		<result column="status" property="status" />
+		<result column="is_disable" property="isDisable" />
+		<result column="register_member_type" property="registerMemberType" />
+		<result column="has_buyer_identity" property="hasBuyerIdentity" />
+		<result column="has_seller_identity" property="hasSellerIdentity" />
+		<result column="has_servicer_identity" property="hasServicerIdentity" />
+		<result column="has_supplier_identity" property="hasSupplierIdentity" />
+		<result column="register_email" property="registerEmail" />
+		<result column="register_mobile" property="registerMobile" />
+		<result column="email_activate_code" property="emailActivateCode" />
+		<result column="is_mobile_verify" property="isMobileVerify" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+</mapper>

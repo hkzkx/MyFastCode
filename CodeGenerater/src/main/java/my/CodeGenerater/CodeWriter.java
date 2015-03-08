@@ -3,6 +3,8 @@ package my.CodeGenerater;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class CodeWriter {
 	private static String default_suffix = ".java";

@@ -1,0 +1,8 @@
+host=localhost
+port=6379
+db=2
+pool.MaxActive=50
+pool.MaxIdle=2
+pool.MaxWait=3000
+pool.TestOnBorrow=true
+pool.TestOnReturn=true
