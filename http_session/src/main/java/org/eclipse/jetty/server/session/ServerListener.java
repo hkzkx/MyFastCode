@@ -55,7 +55,7 @@ public class ServerListener implements LifeCycle.Listener {
 											String appId = webapp.getContextPath()+webapp.getWar();
 											if(!apps.contains(appId) && !webapp.isStarted()) {
 											
-												SessionHandler sessionHandler = new SessionHandler();
+												MMKSessionHandler sessionHandler = new MMKSessionHandler();
 												sessionHandler.setSessionManager(sessionManager);
 												webapp.setSessionHandler(sessionHandler);
 												apps.add(appId);
@@ -81,7 +81,7 @@ public class ServerListener implements LifeCycle.Listener {
 						WebAppContext webapp = (WebAppContext) handler;
 						String appId = webapp.getContextPath()+webapp.getWar();
 						if(!apps.contains(appId) && !webapp.isStarted()) {
-							SessionHandler sessionHandler = new SessionHandler();
+							MMKSessionHandler sessionHandler = new MMKSessionHandler();
 							sessionHandler.setSessionManager(sessionManager);
 							webapp.setSessionHandler(sessionHandler);
 							apps.add(appId);

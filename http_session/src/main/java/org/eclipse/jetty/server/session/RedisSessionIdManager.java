@@ -119,8 +119,8 @@ public class RedisSessionIdManager extends AbstractSessionIdManager {
 		// get rid of them
 		Handler[] contexts = _server.getChildHandlersByClass(ContextHandler.class);
 		for (int i = 0; contexts != null && i < contexts.length; i++) {
-			SessionHandler sessionHandler = (SessionHandler) ((ContextHandler) contexts[i])
-					.getChildHandlerByClass(SessionHandler.class);
+			MMKSessionHandler sessionHandler = (MMKSessionHandler) ((ContextHandler) contexts[i])
+					.getChildHandlerByClass(MMKSessionHandler.class);
 			if (sessionHandler != null) {
 				SessionManager manager = sessionHandler.getSessionManager();
 

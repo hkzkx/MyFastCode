@@ -433,7 +433,11 @@ public class RedisSessionManager extends AbstractSessionManager {
 			RedisSessionIdManager redisIdManager = (RedisSessionIdManager) idmanager;
 			boolean brisk = redisIdManager.isBrisk();
 			if(brisk){
-				dbIdx = Integer.parseInt(id.substring(id.length()-2));
+				try{
+					dbIdx = Integer.parseInt(id.substring(id.length()-2));
+				}catch(Exception ex){
+					return null;
+				}
 				data = (Map<String,Object>) getRedis().hgetAll(id,dbIdx);
 			}else{
 				data = (Map<String,Object>) getRedis().hgetAll(id);
