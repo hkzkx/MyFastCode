@@ -42,6 +42,10 @@
 			<artifactId>hessian</artifactId>
 			<version>${hessian.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.my</groupId>
+			<artifactId>MyCommon</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
