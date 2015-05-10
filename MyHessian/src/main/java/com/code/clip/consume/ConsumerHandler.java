@@ -1,4 +1,4 @@
-package com.mmb.clip.consume;
+package com.code.clip.consume;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.function.BiConsumer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.code.clip.Describer;
+import com.code.clip.Type;
+import com.code.clip.command.PubSub;
 import com.code.utils.JsonUtil;
-import com.mmb.clip.Describer;
-import com.mmb.clip.Type;
-import com.mmb.clip.command.PubSub;
 
 public class ConsumerHandler extends PubSub {
 	private Log log = LogFactory.getLog(ConsumerHandler.class);

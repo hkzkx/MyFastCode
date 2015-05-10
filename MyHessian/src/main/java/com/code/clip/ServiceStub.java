@@ -1,4 +1,4 @@
-package com.mmb.clip;
+package com.code.clip;
 
 public class ServiceStub {
 	/**

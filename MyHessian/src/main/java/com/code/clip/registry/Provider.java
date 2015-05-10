@@ -1,6 +1,6 @@
-package com.mmb.clip.registry;
+package com.code.clip.registry;
 
-import com.mmb.clip.Describer;
+import com.code.clip.Describer;
 
 public interface Provider {
 

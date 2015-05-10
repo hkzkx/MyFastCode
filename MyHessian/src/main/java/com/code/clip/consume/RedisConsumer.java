@@ -1,13 +1,13 @@
-package com.mmb.clip.consume;
+package com.code.clip.consume;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.code.clip.Coordinator;
+import com.code.clip.Describer;
+import com.code.clip.Type;
 import com.code.redis.PooledJedis;
 import com.code.utils.JsonUtil;
-import com.mmb.clip.Coordinator;
-import com.mmb.clip.Describer;
-import com.mmb.clip.Type;
 
 public class RedisConsumer implements Consumer {
 

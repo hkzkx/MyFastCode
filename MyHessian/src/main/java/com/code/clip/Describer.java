@@ -1,4 +1,4 @@
-package com.mmb.clip;
+package com.code.clip;
 
 import com.code.utils.JsonUtil;
 

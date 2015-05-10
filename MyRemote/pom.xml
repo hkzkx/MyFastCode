@@ -22,16 +22,15 @@
 		</dependency>
 		<dependency>
 			<groupId>com.my</groupId>
-			<artifactId>MyAnnotation</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.my</groupId>
 			<artifactId>MyCommon</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.my</groupId>
+			<artifactId>MyAnnotation</artifactId>
 		</dependency>
 	</dependencies>
 

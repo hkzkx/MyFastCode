@@ -71,6 +71,11 @@
 				<artifactId>MyRemote</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.my</groupId>
+				<artifactId>MyAnnotation</artifactId>
+				<version>${annotation.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>com.jonguo</groupId>

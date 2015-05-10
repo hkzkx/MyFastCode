@@ -1,11 +1,11 @@
-package com.mmb.clip.blance;
+package com.code.clip.blance;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.mmb.clip.Coordinator;
-import com.mmb.clip.Describer;
+import com.code.clip.Coordinator;
+import com.code.clip.Describer;
 
 public class RoundRobin implements Blance {
 

@@ -9,9 +9,34 @@
 	
 	default-autowire="byName"
 >
-	<context:component-scan base-package="com.code.*">
+	<!-- <context:component-scan base-package="com.code.*">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
-	</context:component-scan>
+	</context:component-scan> -->
+	
+	<bean id="settings" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+           <list>
+				<value>classpath*:/config/*.properties</value>
+			</list>
+        </property>
+    </bean>
+    
+	<bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="properties" ref="settings" />
+	</bean>
+	
+	<bean id="provider" class="com.code.clip.registry.RedisProvider">
+		<property name="pool" ref="pooledJedis"/>
+		<property name="node">
+			<bean class="com.code.clip.Node">
+				<property name="host" value="${this.host}"/>
+				<property name="delay" value="2000"/>
+				<property name="remark" value="the test node of clip 8090"/>
+			</bean>
+		</property>
+	</bean>
+	
+	
 
 	<bean id="hessianSupport"  class="com.remote.hession.HessianServiceScanner">
 		<property name="scanPackage">
@@ -20,6 +45,7 @@
 			</array>
 		</property>   
 		<property name="root" value="com.code"/>
+		<property name="provider" ref="provider"/>
 	</bean>
 	
 	

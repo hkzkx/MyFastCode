@@ -1,4 +1,4 @@
-package com.mmb.clip;
+package com.code.clip;
 
 public class Coordinator {
 	public static String channel_push = "serviceChannel_push";

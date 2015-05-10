@@ -1,4 +1,4 @@
-package com.mmb.clip.command;
+package com.code.clip.command;
 
 import redis.clients.jedis.JedisPubSub;
 

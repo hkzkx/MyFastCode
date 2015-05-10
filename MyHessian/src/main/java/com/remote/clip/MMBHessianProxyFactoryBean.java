@@ -8,7 +8,7 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.caucho.hessian.io.HessianRemoteObject;
 import com.code.common.IBaseService;
-import com.mmb.hessian.MyHessianProxy;
+import com.code.hessian.MyHessianProxy;
 
 
 public class MMBHessianProxyFactoryBean implements FactoryBean<Object>, InitializingBean{

@@ -1,4 +1,4 @@
-package com.mmb.clip;
+package com.code.clip;
 
 public enum Type {
 	SERVICE_ACTIVE,

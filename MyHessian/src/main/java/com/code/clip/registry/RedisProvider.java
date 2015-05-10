@@ -1,4 +1,4 @@
-package com.mmb.clip.registry;
+package com.code.clip.registry;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,15 +11,15 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
+import com.code.clip.Coordinator;
+import com.code.clip.Describer;
+import com.code.clip.Node;
+import com.code.clip.ServiceStub;
+import com.code.clip.Type;
+import com.code.clip.command.PubSub;
 import com.code.redis.JedisFace;
 import com.code.redis.PooledJedis;
 import com.code.utils.JsonUtil;
-import com.mmb.clip.Coordinator;
-import com.mmb.clip.Describer;
-import com.mmb.clip.Node;
-import com.mmb.clip.ServiceStub;
-import com.mmb.clip.Type;
-import com.mmb.clip.command.PubSub;
 
 public class RedisProvider implements Provider, BeanFactoryPostProcessor {
 

@@ -1,6 +1,5 @@
-package com.mmb.hessian;
+package com.code.hessian;
 
-import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.net.ConnectException;
@@ -17,10 +16,10 @@ import org.apache.commons.logging.LogFactory;
 
 import com.caucho.hessian.client.HessianConnectionException;
 import com.caucho.hessian.client.HessianProxyFactory;
-import com.mmb.clip.Coordinator;
-import com.mmb.clip.Describer;
-import com.mmb.clip.blance.RoundRobin;
-import com.mmb.clip.consume.ConsumerHandler;
+import com.code.clip.Coordinator;
+import com.code.clip.Describer;
+import com.code.clip.blance.RoundRobin;
+import com.code.clip.consume.ConsumerHandler;
 
 public class MyHessianProxy implements InvocationHandler {
 	private Log log = LogFactory.getLog(MyHessianProxy.class);

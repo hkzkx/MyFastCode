@@ -1,6 +1,6 @@
-package com.mmb.clip.consume;
+package com.code.clip.consume;
 
-import com.mmb.clip.Describer;
+import com.code.clip.Describer;
 
 public interface Consumer {
 
