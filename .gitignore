@@ -128,3 +128,7 @@
 /http_session/.settings/org.eclipse.wst.common.component
 /http_session/.settings/org.eclipse.wst.common.project.facet.core.xml
 /http_session/.settings/org.eclipse.wst.validation.prefs
+/MyAnnotation/.settings/org.eclipse.wst.validation.prefs
+/MyBaseDao/.settings/org.eclipse.wst.validation.prefs
+/MyCommon/.settings/org.eclipse.wst.validation.prefs
+/MyHessian/.settings/org.eclipse.wst.validation.prefs
