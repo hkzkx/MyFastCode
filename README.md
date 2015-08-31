@@ -23,6 +23,7 @@ MyFastCode 特性：<br>
 
 =========================<br>
 各工程描述：<br>
+CodeGenerater：基础数据操作代码生成器(可生成mybatis mapper/ dao / service接口 /spring controller及其它)，实际上，我认为生成controller是不需要的<br><br>
 MyClipAdmin：一个web应用，配合MyHessian组件实现服务节点管理，配置管理<br><br>
 MyHessian：Hessian服务端暴露处理，客户端服务代理处理及节点管理事件，配置管理事件处理<br><br>
 MyHttpSession：由于jetty8版本没有redis http session的管理实现，所以这个工程做为jetty的插件形式存在，需要部署到JETTY_HOME/lib/ext目录下<br><br>
