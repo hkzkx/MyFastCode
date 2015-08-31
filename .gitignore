@@ -132,3 +132,13 @@
 /MyBaseDao/.settings/org.eclipse.wst.validation.prefs
 /MyCommon/.settings/org.eclipse.wst.validation.prefs
 /MyHessian/.settings/org.eclipse.wst.validation.prefs
+/MyClipAdmin/*.classpath
+/MyClipAdmin/.externalToolBuilders/*.launch
+/MyClipAdmin/*.gitignore
+/MyClipAdmin/*.project
+/MyClipAdmin/.settings/*.jsdtscope
+/MyClipAdmin/.settings/*.prefs
+/MyClipAdmin/.settings/*.component
+/MyClipAdmin/.settings/*.xml
+/MyClipAdmin/.settings/*.container
+/MyClipAdmin/.settings/*.name

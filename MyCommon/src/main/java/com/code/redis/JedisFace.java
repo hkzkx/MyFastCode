@@ -23,6 +23,13 @@ public interface JedisFace {
 	public abstract boolean setStr(String key, String value, int seconds, boolean override);
 
 	/**
+	 * 原子性 存储数据，当缓存中不存在key时则保存数据，这个原子性调用是由redis提供的
+	 * @param key
+	 * @param v
+	 * @return true:缓存k:v成功，false：数据已经存在
+	 */
+	public boolean setnx(String key,Object v);
+	/**
 	 * 获取字符串
 	 * 
 	 * @param key
@@ -60,6 +67,7 @@ public interface JedisFace {
 	public abstract boolean hmset(String key, Map<String, Object> values, int timeout);
 
 	public abstract boolean hset(String key, String field, Object obj);
+	public abstract List<Object> hvals(String key);
 
 	public abstract Object hget(String key, String field);
 

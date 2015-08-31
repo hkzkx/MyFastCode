@@ -27,7 +27,7 @@ public class JedisProxy implements /*InvocationHandler,*/ JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#setStr(java.lang.String, java.lang.String,
+	 * @see com.code.redis.JedisFace#setStr(java.lang.String, java.lang.String,
 	 * int, boolean)
 	 */
 	@Override
@@ -59,7 +59,7 @@ public class JedisProxy implements /*InvocationHandler,*/ JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#getStr(java.lang.String)
+	 * @see com.code.redis.JedisFace#getStr(java.lang.String)
 	 */
 	@Override
 	public String getStr(String key) {
@@ -80,7 +80,7 @@ public class JedisProxy implements /*InvocationHandler,*/ JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#setObj(java.lang.String, java.lang.Object,
+	 * @see com.code.redis.JedisFace#setObj(java.lang.String, java.lang.Object,
 	 * int, boolean)
 	 */
 	@Override
@@ -117,7 +117,7 @@ public class JedisProxy implements /*InvocationHandler,*/ JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#getObj(java.lang.String)
+	 * @see com.code.redis.JedisFace#getObj(java.lang.String)
 	 */
 	@Override
 	public Object getObj(String key) {
@@ -145,7 +145,7 @@ public class JedisProxy implements /*InvocationHandler,*/ JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#del_(java.lang.String)
+	 * @see com.code.redis.JedisFace#del_(java.lang.String)
 	 */
 	@Override
 	public boolean del(String key) {
@@ -168,7 +168,7 @@ public class JedisProxy implements /*InvocationHandler,*/ JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#hmset(java.lang.String, java.util.Map, int)
+	 * @see com.code.redis.JedisFace#hmset(java.lang.String, java.util.Map, int)
 	 */
 	@Override
 	public boolean hmset(String key, Map<String, Object> values, int timeout) {
@@ -200,7 +200,7 @@ public class JedisProxy implements /*InvocationHandler,*/ JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#hset(java.lang.String, java.lang.String,
+	 * @see com.code.redis.JedisFace#hset(java.lang.String, java.lang.String,
 	 * java.lang.Object)
 	 */
 	@Override
@@ -224,7 +224,7 @@ public class JedisProxy implements /*InvocationHandler,*/ JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#hget_(java.lang.String, java.lang.String)
+	 * @see com.code.redis.JedisFace#hget_(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public Object hget(String key, String field) {
@@ -249,7 +249,7 @@ public class JedisProxy implements /*InvocationHandler,*/ JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#hgetAll_(java.lang.String)
+	 * @see com.code.redis.JedisFace#hgetAll_(java.lang.String)
 	 */
 	@Override
 	public Map<String, Object> hgetAll(String key) {

@@ -1,5 +1,6 @@
 package com.code.redis;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import com.code.utils.JsonUtil;
 public class JedisProxy implements JedisFace {
 	private static Log log = LogFactory.getLog(JedisProxy.class);
 
-	private Jedis jedis;
+//	private Jedis jedis;
 	private PooledJedis pool;
 
 	public JedisProxy(PooledJedis pool) {
@@ -27,14 +28,14 @@ public class JedisProxy implements JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#setStr(java.lang.String, java.lang.String,
+	 * @see com.code.redis.JedisFace#setStr(java.lang.String, java.lang.String,
 	 * int, boolean)
 	 */
 	@Override
 	public boolean setStr(String key, String value, int seconds, boolean override) {
 		boolean ok = false;
+		Jedis jedis = pool.getJedis();
 		try{
-			this.jedis = pool.getJedis();
 			if (override == false && jedis.exists(key)) {
 				ok = false;
 			} else {
@@ -59,12 +60,12 @@ public class JedisProxy implements JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#getStr(java.lang.String)
+	 * @see com.code.redis.JedisFace#getStr(java.lang.String)
 	 */
 	@Override
 	public String getStr(String key) {
+		Jedis jedis = pool.getJedis();
 		try{
-			this.jedis = pool.getJedis();
 			return jedis.get(key);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,14 +81,14 @@ public class JedisProxy implements JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#setObj(java.lang.String, java.lang.Object,
+	 * @see com.code.redis.JedisFace#setObj(java.lang.String, java.lang.Object,
 	 * int, boolean)
 	 */
 	@Override
 	public boolean setObj(String key, Object value, int seconds, boolean override) {
 		boolean ok = false;
+		Jedis jedis = pool.getJedis();
 		try{
-			this.jedis = pool.getJedis();
 			byte[] data = SerialUtil.encode(value);
 			if (data == null) {
 				log.info("setObj SerialUtil.encode error");
@@ -117,13 +118,13 @@ public class JedisProxy implements JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#getObj(java.lang.String)
+	 * @see com.code.redis.JedisFace#getObj(java.lang.String)
 	 */
 	@Override
 	public Object getObj(String key) {
 		Object obj = null;
+		Jedis jedis = pool.getJedis();
 		try{
-			this.jedis = pool.getJedis();
 			byte[] data = jedis.get(key.getBytes());
 			if (data == null || data.length == 0) {
 				log.debug("redis data is empty " + key);
@@ -145,13 +146,13 @@ public class JedisProxy implements JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#del_(java.lang.String)
+	 * @see com.code.redis.JedisFace#del_(java.lang.String)
 	 */
 	@Override
 	public boolean del(String key) {
 		boolean ok = false;
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			jedis.del(key);
 			ok = true;
 		} catch (Exception e) {
@@ -168,13 +169,13 @@ public class JedisProxy implements JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#hmset(java.lang.String, java.util.Map, int)
+	 * @see com.code.redis.JedisFace#hmset(java.lang.String, java.util.Map, int)
 	 */
 	@Override
 	public boolean hmset(String key, Map<String, Object> values, int timeout) {
 		String ok = "";
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			Map<byte[], byte[]> hash = new HashMap<byte[], byte[]>();
 			values.forEach(new BiConsumer<String, Object>() {
 				@Override
@@ -200,18 +201,19 @@ public class JedisProxy implements JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#hset(java.lang.String, java.lang.String,
+	 * @see com.code.redis.JedisFace#hset(java.lang.String, java.lang.String,
 	 * java.lang.Object)
 	 */
 	@Override
 	public boolean hset(String key, String field, Object obj) {
 		long ok = 0;
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			byte[] data = SerialUtil.encode(obj);
 			ok = jedis.hset(key.getBytes(), field.getBytes(), data);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			if (pool != null) {
 				if (jedis != null)
@@ -224,13 +226,13 @@ public class JedisProxy implements JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#hget_(java.lang.String, java.lang.String)
+	 * @see com.code.redis.JedisFace#hget_(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public Object hget(String key, String field) {
 		Object obj = null;
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			byte[] bytes = jedis.hget(key.getBytes(), field.getBytes());
 			if (bytes != null) {
 				obj = SerialUtil.decode(bytes);
@@ -249,12 +251,12 @@ public class JedisProxy implements JedisFace {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.mmb.redis.JedisFace#hgetAll_(java.lang.String)
+	 * @see com.code.redis.JedisFace#hgetAll_(java.lang.String)
 	 */
 	@Override
 	public Map<String, Object> hgetAll(String key) {
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			return hgetAll(key,jedis);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -298,8 +300,8 @@ public class JedisProxy implements JedisFace {
 
 	@Override
 	public boolean exists(String id) {
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			return jedis.exists(id);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -315,8 +317,8 @@ public class JedisProxy implements JedisFace {
 
 	@Override
 	public Map<String, Object> hgetAll(String key, Integer dbIdx) {
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			jedis.select(dbIdx);
 			return hgetAll(key,jedis);
 		} catch (Exception e) {
@@ -332,8 +334,8 @@ public class JedisProxy implements JedisFace {
 
 	@Override
 	public long incr(String key,int seconds) {
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			long v = jedis.incr(key);
 			jedis.expire(key, seconds);
 			return v;
@@ -350,8 +352,8 @@ public class JedisProxy implements JedisFace {
 
 	@Override
 	public Long expire(String key, int seconds) {
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			return jedis.expire(key, seconds);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -366,8 +368,8 @@ public class JedisProxy implements JedisFace {
 	
 	@Override
 	public Long publish(String channel, String message) {
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			return jedis.publish(channel, message);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -382,8 +384,8 @@ public class JedisProxy implements JedisFace {
 	
 	@Override
 	public void subscribe(JedisPubSub pubsub,String... channel) {
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			//TODO 要弄清楚subscribe是否需要返还资源
 			jedis.subscribe(pubsub,channel );
 		} catch (Exception e) {
@@ -398,12 +400,14 @@ public class JedisProxy implements JedisFace {
 
 	@Override
 	public void batchPublish(String channel,List<Object> services) {
+		Jedis jedis = pool.getJedis();
 		try {
-			this.jedis = pool.getJedis();
 			services.forEach(new Consumer<Object>() {
 				@Override
 				public void accept(Object t) {
-					jedis.publish(channel, JsonUtil.java2json(t));
+					String msg = JsonUtil.java2json(t);
+					long client = jedis.publish(channel, msg);
+					log.debug(String.format("消息[%s] %s客户端接收到", msg,client));
 				}
 			});
 		} catch (Exception e) {
@@ -414,5 +418,48 @@ public class JedisProxy implements JedisFace {
 					pool.returnResource(jedis);
 			}
 		}
+	}
+
+	@Override
+	public List<Object> hvals(String key) {
+		List<Object> list = new ArrayList<Object>();
+		Jedis jedis = pool.getJedis();
+		try {
+			List<byte[]> vals = jedis.hvals(key.getBytes());
+			vals.forEach(new Consumer<byte[]>() {
+
+				@Override
+				public void accept(byte[] t) {
+					list.add(SerialUtil.decode(t));
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pool != null) {
+				if (jedis != null)
+					pool.returnResource(jedis);
+			}
+		}
+		
+		return list;
+	}
+
+	@Override
+	public boolean setnx(String key, Object v) {
+		Long replay = 0l;
+		Jedis jedis = pool.getJedis();
+		try {
+			replay = jedis.setnx(key.getBytes(), SerialUtil.encode(v));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pool != null) {
+				if (jedis != null)
+					pool.returnResource(jedis);
+			}
+		}
+		
+		return replay == 1l;
 	}
 }

@@ -90,4 +90,9 @@ public class StrUtil {
 			}
 		}
 	}
+	
+	public static String calcJedisKey(String system,String module, String key) {
+		String str = system + ":" + module + "&" + key;
+		return str;
+	}
 }

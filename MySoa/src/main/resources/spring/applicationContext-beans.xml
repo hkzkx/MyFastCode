@@ -11,7 +11,7 @@
 >
 	<context:component-scan base-package="com.code.*"/>
 	
-	<bean id="hessianSupportClient"  class="com.remote.hession.RemoteServiceScanner">
+	<bean id="hessianSupportClient"  class="com.remote.hessian.RemoteServiceScanner">
 		<property name="scanPackages">
 			<array>
 				<value>com.code</value>

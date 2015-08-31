@@ -105,11 +105,12 @@
 	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
 	<bean id="jsonResolver" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
 
-	<bean class="com.remote.hession.RemoteServiceScanner">
+	<bean class="com.remote.hessian.RemoteServiceScanner">
 		<property name="scanPackages">
 			<array>
 				<value>com.code</value>
 			</array>
 		</property>
+		<property name="consumer" ref="serviceConsumer"/>
 	</bean>
 </beans>

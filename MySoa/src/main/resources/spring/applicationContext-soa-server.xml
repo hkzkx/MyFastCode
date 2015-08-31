@@ -29,16 +29,15 @@
 		<property name="pool" ref="pooledJedis"/>
 		<property name="node">
 			<bean class="com.code.clip.Node">
-				<property name="host" value="${this.host}"/>
-				<property name="delay" value="2000"/>
-				<property name="remark" value="the test node of clip 8090"/>
+				<property name="host" value="${soa.node}"/>
+				<property name="remark" value="soa node ${soa.node}"/>
 			</bean>
 		</property>
 	</bean>
 	
 	
 
-	<bean id="hessianSupport"  class="com.remote.hession.HessianServiceScanner">
+	<bean id="hessianSupport"  class="com.remote.hessian.HessianServiceScanner">
 		<property name="scanPackage">
 			<array>
 				<value>com.code.service</value>
