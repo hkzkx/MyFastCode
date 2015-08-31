@@ -2,7 +2,6 @@ package com.code.clip.command;
 
 import redis.clients.jedis.JedisPubSub;
 
-
 public abstract class PubSub extends JedisPubSub {
 
 	@Override

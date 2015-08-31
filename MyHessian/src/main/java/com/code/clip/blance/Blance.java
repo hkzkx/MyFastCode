@@ -3,9 +3,9 @@ package com.code.clip.blance;
 import java.util.List;
 import java.util.Map;
 
-import com.code.clip.Describer;
+import com.code.clip.ServiceStub;
 
 public interface Blance {
 
-	Describer getNextNode(List<Describer> nodes,Map<String,Integer> statistics);
+	ServiceStub getNextNode(List<ServiceStub> stubs,Map<String,Integer> statistics);
 }

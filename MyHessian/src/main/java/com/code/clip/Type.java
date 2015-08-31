@@ -8,5 +8,7 @@ public enum Type {
 	NODE_DOWN,
 	NODE_HEARTBEAT,
 	
+	COLLECT,
+	
 	CONSUMER_PULL
 }

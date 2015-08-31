@@ -1,4 +1,4 @@
-package com.remote.hession;
+package com.remote.hessian;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -162,8 +162,9 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor, Applicat
 						ServiceStub message = new ServiceStub();
 						message.setServiceName(interf.getTypeName());
 						message.setServiceUri("/" + beanName);
-						message.setStatus(1);
+						message.setStatus(4);
 						message.setWeight(10);
+						message.setNode(provider.getNode());
 						desc.setStub(message);
 						provider.register(desc);
 					}

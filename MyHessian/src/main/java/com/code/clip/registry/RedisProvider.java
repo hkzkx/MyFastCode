@@ -1,7 +1,5 @@
 package com.code.clip.registry;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,19 +12,30 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import com.code.clip.Coordinator;
 import com.code.clip.Describer;
 import com.code.clip.Node;
-import com.code.clip.ServiceStub;
 import com.code.clip.Type;
+import com.code.clip.command.Context;
+import com.code.clip.command.FilterChain;
 import com.code.clip.command.PubSub;
+import com.code.clip.command.RedisFilterChain;
+import com.code.clip.command.filter.CollectLogSettingsFilter;
+import com.code.clip.command.filter.CollectRegitryFilter;
+import com.code.clip.command.filter.DefaultFilter;
+import com.code.clip.command.filter.HeartbeatFilter;
+import com.code.clip.command.filter.LogSettingsFilter;
+import com.code.clip.command.filter.RequestServicesFilter;
 import com.code.redis.JedisFace;
 import com.code.redis.PooledJedis;
 import com.code.utils.JsonUtil;
 
 public class RedisProvider implements Provider, BeanFactoryPostProcessor {
 
-	private Log log = LogFactory.getLog(RedisProvider.class);
-	private PooledJedis pool;
-	private Node node;
-	private static final List<Object> services = new ArrayList<Object>();
+	private Log				log			= LogFactory.getLog(RedisProvider.class);
+
+	private PooledJedis		pool;
+
+	private Node			node;
+
+	private List<Object>	services	= new ArrayList<Object>();
 
 	public RedisProvider(PooledJedis pool) {
 		this.pool = pool;
@@ -35,17 +44,44 @@ public class RedisProvider implements Provider, BeanFactoryPostProcessor {
 	public RedisProvider() {
 	}
 
+	private FilterChain	chain	= buildFilterChain();
+
+	public RedisFilterChain buildFilterChain() {
+		DefaultFilter tailFilter = new DefaultFilter();
+
+		HeartbeatFilter heartbeatFilter = new HeartbeatFilter();
+		RequestServicesFilter requestServicesFilter = new RequestServicesFilter();
+		LogSettingsFilter logSettingsFilter = new LogSettingsFilter();
+		CollectLogSettingsFilter collectLogSettingsFilter = new CollectLogSettingsFilter();
+		CollectRegitryFilter collectRegitryFilter = new CollectRegitryFilter();
+
+		RedisFilterChain chain6 = new RedisFilterChain(tailFilter, null);
+		RedisFilterChain chain5 = new RedisFilterChain(logSettingsFilter, chain6);
+		RedisFilterChain chain4 = new RedisFilterChain(requestServicesFilter, chain5);
+		RedisFilterChain chain3 = new RedisFilterChain(heartbeatFilter, chain4);
+		RedisFilterChain chain2 = new RedisFilterChain(collectRegitryFilter, chain3);
+		RedisFilterChain chain1 = new RedisFilterChain(collectLogSettingsFilter, chain2);
+
+		return chain1;
+	}
+
 	public void register(Describer desc) {
 		desc.setNode(this.node);
 		services.add(desc);
+		Context.getInstance().add(Context.serviceCache, this.services, false);
 
 		JedisFace jedis = pool.getJedisProxy();
-		Long reply = jedis.publish(Coordinator.channel_push, desc.toString());
+		Long reply = jedis.publish(Coordinator.channel_push, JsonUtil.java2json(desc));
 		log.info(String.format("服务[%s]通知，%d个客户端接收到", desc.getStub().getServiceName(), reply.intValue()));
 	}
 
 	@Override
-	public void subscribe(String channel) {
+	public void subscribe(String... channel) {
+		StringBuffer channelKey = new StringBuffer();
+		for (String chnl : channel) {
+			channelKey.append(chnl);
+			channelKey.append(",");
+		}
 		new Thread(new Runnable() {
 
 			@Override
@@ -55,19 +91,16 @@ public class RedisProvider implements Provider, BeanFactoryPostProcessor {
 
 					public void onMessage(String channel, String message) {
 						log.debug(String.format("Provider onMessage,channel:%s,message:%s", channel, message));
-						Describer desc = JsonUtil.json2java(message, Describer.class);
-						if(desc.getType() == Type.CONSUMER_PULL){
-							JedisFace jedis = pool.getJedisProxy();
-							jedis.batchPublish(Coordinator.channel_push, services);
-						}
-						if(desc.getType() == Type.NODE_HEARTBEAT){
-							// do nothing
+						try {
+							chain.doFilter(channel, message);
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
 					}
 
 				}, channel);
 			}
-		},"soa subscribe " +channel).start();
+		}, "soa subscribe " + channelKey).start();
 	}
 
 	@Override
@@ -77,7 +110,7 @@ public class RedisProvider implements Provider, BeanFactoryPostProcessor {
 		downMsg.setNode(node);
 		pool.getJedisProxy().publish(Coordinator.channel_push, JsonUtil.java2json(downMsg));
 	}
-	
+
 	@Override
 	public void up() {
 		Describer downMsg = new Describer();
@@ -85,13 +118,14 @@ public class RedisProvider implements Provider, BeanFactoryPostProcessor {
 		downMsg.setNode(node);
 		pool.getJedisProxy().publish(Coordinator.channel_push, JsonUtil.java2json(downMsg));
 	}
-	
+
 	public PooledJedis getPool() {
 		return pool;
 	}
 
 	public void setPool(PooledJedis pool) {
 		this.pool = pool;
+		Context.getInstance().add(Context.poolJedis, this.pool, true);
 	}
 
 	public Node getNode() {
@@ -100,41 +134,23 @@ public class RedisProvider implements Provider, BeanFactoryPostProcessor {
 
 	public void setNode(Node node) {
 		this.node = node;
-	}
-
-	public static void main(String[] args) throws URISyntaxException, InterruptedException {
-		String uri = "/service/siteuser/SiteUserService";
-		String name = "com.mmb.service.siteuser.SiteUserService";
-
-		Describer desc = new Describer();
-		desc.setType(Type.SERVICE_ACTIVE);
-
-		ServiceStub message = new ServiceStub();
-		message.setServiceName(name);
-		message.setServiceUri(uri);
-		message.setStatus(1);
-		message.setWeight(10);
-		desc.setStub(message);
-
-		URI confuri = new URI("file:///F:/guangqun/trunk/remote/src/main/resources/env/me/common.properties");
-		PooledJedis pool = PooledJedis.getPooledJedis(confuri);
-		pool.init();
-
-		Provider provider = new RedisProvider(pool);
-		while (true) {
-			provider.register(desc);
-			Thread.currentThread().sleep(1000l);
-		}
+		this.node.setStatus(2);
+		Context.getInstance().add(Context.node, this.node, true);
 	}
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		subscribe(Coordinator.channel_pull);
-		subscribe(Coordinator.channel_heartbeat+node.getHost());
+		String[] channels = { Coordinator.channel_pull, Coordinator.channel_heartbeat + node.getHost(), Coordinator.channel_collect_pull,
+
+		Coordinator.channel_collect_pull_logger, Coordinator.channel_collect_logger_set };
+		subscribe(channels);
+		// subscribe(Coordinator.channel_pull);
+		// subscribe(Coordinator.channel_heartbeat+node.getHost());
+		// subscribe(Coordinator.channel_collect_pull);
 	}
 
-	
-
-	
-
+	@Override
+	public List<Object> getServices() {
+		return services;
+	}
 }

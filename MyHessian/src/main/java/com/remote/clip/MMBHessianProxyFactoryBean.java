@@ -15,6 +15,7 @@ public class MMBHessianProxyFactoryBean implements FactoryBean<Object>, Initiali
 	private Class<?> serviceInterface;
 	private Object serviceProxy;
 	
+	private String serviceUrl;
 
 	public Class<?> getServiceInterface() {
 		return serviceInterface;
@@ -41,7 +42,7 @@ public class MMBHessianProxyFactoryBean implements FactoryBean<Object>, Initiali
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		InvocationHandler handler = new MyHessianProxy(serviceInterface);
+		InvocationHandler handler = new MyHessianProxy(serviceInterface,serviceUrl);
 
 		this.serviceProxy = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
 	                                  new Class[] { serviceInterface,
@@ -51,6 +52,15 @@ public class MMBHessianProxyFactoryBean implements FactoryBean<Object>, Initiali
 	    
 		
 	}
+
+	public String getServiceUrl() {
+		return serviceUrl;
+	}
+
+	public void setServiceUrl(String serviceUrl) {
+		this.serviceUrl = serviceUrl;
+	}
+
 
 	
 }

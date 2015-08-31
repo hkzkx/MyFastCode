@@ -1,6 +1,5 @@
 package com.code.clip;
 
-import com.code.utils.JsonUtil;
 
 public class Describer implements java.io.Serializable{
 
@@ -12,18 +11,6 @@ public class Describer implements java.io.Serializable{
 	private Type type;
 	private ServiceStub stub;
 	private Node node;
-	private boolean invoked = false;
-	
-	
-	public boolean isInvoked() {
-		return invoked;
-	}
-
-
-	public void setInvoked(boolean invoked) {
-		this.invoked = invoked;
-	}
-
 
 	public Type getType() {
 		return type;
@@ -47,7 +34,7 @@ public class Describer implements java.io.Serializable{
 
 	@Override
 	public String toString() {
-		return JsonUtil.java2json(this);
+		return "Describer [type=" + type + ", stub=" + stub + ", node=" + node + "]";
 	}
 
 

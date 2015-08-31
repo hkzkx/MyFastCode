@@ -1,4 +1,4 @@
-package com.remote.hession;
+package com.remote.hessian;
 
 import java.lang.reflect.Field;
 
@@ -50,7 +50,7 @@ public class RemoteServiceScanner extends InstantiationAwareBeanPostProcessorAda
 	@SuppressWarnings("unused")
 	private ApplicationContext applicationContext;
 	private static final String PACKAGE_SEPARATER = ".";
-	private String root = "com.mmb";
+	private String root = "com.code";
 	private static final String domain = ".soa.url";
 	private String[] scanPackages;
 	private String[] remoteServiceSuffix;
@@ -143,7 +143,6 @@ public class RemoteServiceScanner extends InstantiationAwareBeanPostProcessorAda
 								holderSOAURL = soaNosqlUrl;
 							} else {
 								holderSOAURL = soaUrl;
-								;
 							}
 						}
 						serviceName = holderSOAURL + "/" + org.apache.commons.lang.StringUtils.join(parts, "/");
@@ -197,7 +196,7 @@ public class RemoteServiceScanner extends InstantiationAwareBeanPostProcessorAda
 	}
 
 	/**
-	 * 系统拆分后，根据成员变量的包路径构建代理服务 例：com.mmb.account.service包，构建服务路径为
+	 * 系统拆分后，根据成员变量的包路径构建代理服务 例：com.code.account.service包，构建服务路径为
 	 * http://${account
 	 * .soa.url}/xxx.依account为子服务，后缀.sao.url(account.soa.url),在配置文件中查找
 	 * 
@@ -248,13 +247,21 @@ public class RemoteServiceScanner extends InstantiationAwareBeanPostProcessorAda
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (consumer != null) {
+			log.info("hessian support 运行在服务协调模式下");
 			// 订阅服务端主动推送通道
-			consumer.subscribe(Coordinator.channel_push);
+			consumer.subscribe(new String[]{
+							Coordinator.channel_push,
+							Coordinator.channel_collect_pull_static, 
+							Coordinator.channel_collect_static_set ,
+							Coordinator.channel_collect_pull_logger, 
+							Coordinator.channel_collect_logger_set });
 			Describer desc = new Describer();
 
 			// 向服务端拉取通道发送拉取消息，服务提供才响应并推送服务存根到Coordinator.channel_push通道
 			desc.setType(Type.CONSUMER_PULL);
 			consumer.publish(desc, Coordinator.channel_pull);
+		}else{
+			log.info("hessian support 运行在直连模式下");
 		}
 
 	}
