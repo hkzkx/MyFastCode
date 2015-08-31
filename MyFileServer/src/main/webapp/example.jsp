@@ -11,8 +11,6 @@
 		<input type="file" name="file1"/><br>
 		<input type="file" name="file2"/><br>
 		<input type="file" name="file3"/><br>
-		<input type="hidden" name="userId" value="1"/>
-		<input type="hidden" name="userType" value="A"/>
 		<input type="submit"  value="上传"/>
 	</form>
 </body>

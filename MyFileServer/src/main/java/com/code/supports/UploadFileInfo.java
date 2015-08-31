@@ -1,25 +1,27 @@
-package com.mmk.supports;
+package com.code.supports;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
-@JsonSerialize(include=Inclusion.NON_NULL)
+@JsonSerialize(include = Inclusion.NON_NULL)
 public class UploadFileInfo implements java.io.Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2503424784036903370L;
+	private static final long	serialVersionUID	= -2503424784036903370L;
 
 	// 文件名,用于存储在数据中
-	private String path;
+	private String				path;
+
 	// 原始文件名
-	private String orgName;
-	//html 中的field
-	private String field;
-	
-	private String msg;
-	
+	private String				orgName;
+
+	// html 中的field
+	private String				field;
+
+	private String				msg;
+
 	public String getMsg() {
 		return msg;
 	}
